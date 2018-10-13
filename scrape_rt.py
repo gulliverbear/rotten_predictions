@@ -107,8 +107,30 @@ if __name__ == '__main__':
                 sys.exc_info()[2],
             ))
 
-        # to do - check for any new movie reviews
-        # if new ones are found save a new json file and print an alert
+        if current_movie_to_reviews != last_movie_to_reviews:
+            if dont_save_first:
+                dont_save_first = False
+            else:
+                save_json(current_movie_to_reviews)
+                
+                print('\n###')
+                print('\nNew json file saved at {}'.format(datetime.datetime.now()))
+
+                # dicts could not be equal due to a new movie being added, if so we don't want an alert about that
+                # so check each movie individually to see
+
+                new_reviews = []
+                for movie in current_movie_to_reviews:
+                    if current_movie_to_reviews[movie] != last_movie_to_reviews.get(movie, 0):
+                        new_reviews.append(movie)
+                if new_reviews:
+                    print('New reviews detected for:')
+                    for movie in new_reviews:
+                        print(movie)
+                print('###\n')
+            last_movie_to_reviews = current_movie_to_reviews
+        else:
+            print('No new reviews at {}'.format(datetime.datetime.now()))
 
         # sleep until the next hour (will be a problem if have more than 60 movies to check!)
         time.sleep(60 * (60 - datetime.datetime.now().minute))
