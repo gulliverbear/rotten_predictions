@@ -267,7 +267,24 @@ def get_stats(movie_list, guesses_file):
     '''
     Prints stats on mean, median, std dev for all movies in given list
     '''
-    # to do
+    movie_guesses = pickle.load(open(guesses_file,'rb'))
+
+    lines = []
+    for movie in movie_list:
+        guesses = movie_guesses[movie].values()
+
+        mean = np.mean(guesses)
+        median = np.median(guesses)
+        stdev = np.std(guesses, ddof=1)
+
+        mean, median, stdev = ['{:.2f}'.format(i) for i in (mean, median, stdev)]
+
+        line = '\t'.join([i for i in (movie, mean, median, stdev)])
+        lines.append(line)
+
+    print('Movie\tMean\tMedian\tStd Dev')
+    for line in lines:
+        print(line)
 
 def print_upcoming(movie_to_rt, movie_to_reddit, movies_to_skip):
     '''
