@@ -559,7 +559,6 @@ def score_guesses(movie_to_guesses, subreddit_name):
         FHOUT.write('\n'.join(lines))
 
 if __name__ == '__main__':
-	# to do
-
-
-
+    print_upcoming(movie_to_rt, movie_to_reddit, movies_to_skip)
+    score_guesses(movie_to_guesses, subreddit_name)
+    score_guesses_contest(movie_to_guesses_contest, subreddit_name)
